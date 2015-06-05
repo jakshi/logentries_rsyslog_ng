@@ -20,9 +20,10 @@ actions :add, :remove
 
 default_action :add
 
-attribute :file_name, :kind_of => String, :name_attribute => true, :required => true
-attribute :name, :kind_of => String, :required => true
-attribute :account_key, :kind_of => String, :required => true
-attribute :facility, :kind_of => [String, NilClass], :default => nil
-attribute :conf_basename, :kind_of => String, :default => '/etc/rsyslog.d/20-logentries.conf'
-attribute :syslog_selector, :kind_of => [String], :default => '*.*'
+attribute :log_filename, :kind_of => String, :name_attribute => true, :required => true
+attribute :rsyslog_conf, :kind_of => String, :required => true
+attribute :logentries_name, :kind_of => String, :required => true
+attribute :logentries_account_key, :kind_of => String, :required => true
+attribute :syslog_facility, :kind_of => [String, NilClass], :default => nil
+attribute :rsyslog_selector, :kind_of => [String], :default => '*.*'
+attribute :rsyslog_tag, :kind_of => [String, NilClass], :default => nil
