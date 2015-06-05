@@ -19,12 +19,17 @@
 require 'json'
 
 module Logentries
-  def self.get_host_key(account_key, logentries_logset)
-    url = 'http://api.logentries.com/' + account_key + '/hosts/'
+  def self.get_response(url)
     uri = URI(url)
-
     response = Net::HTTP.get_response(uri)
 
+    response
+  end
+
+  def self.get_host_key(account_key, logentries_logset)
+    url = 'http://api.logentries.com/' + account_key + '/hosts/'
+
+    response = get_response(url)
     logsets = JSON.parse(response.body)
     
     hostkey = ''
@@ -36,15 +41,32 @@ module Logentries
     hostkey
   end
 
-  def self.get_logs(account_key,host_key)
+  def self.get_logs(account_key, host_key)
+    url = 'http://api.logentries.com/' + account_key + '/hosts/' + host_key + '/'
+    response = get_response(url)
+
+    logs = JSON.parse(response.body)
+
+    logs['list']
   end
 
-  def self.log_exist?
+  def self.log_exist?(account_key, host_key, log_name)
+    logs = get_logs(account_key, host_key)
+
+    log_exist = false
+    
+    logs.each do |log|
+      log_exist = true if log['name'] == log_name
+    end
+
+    log_exist
   end
 
   def self.add_log
+    
   end
 
   def self.remove_log
   end
+
 end
