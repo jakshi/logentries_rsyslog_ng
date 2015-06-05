@@ -17,8 +17,14 @@
 # limitations under the License.
 
 require 'json'
+require 'open-uri'
+require 'net/http'
+require 'net/https'
 
 module Logentries
+
+  LURL = "http://api.logentries.com/"
+  
   def self.get_response(url)
     uri = URI(url)
     response = Net::HTTP.get_response(uri)
@@ -27,7 +33,7 @@ module Logentries
   end
 
   def self.get_host_key(account_key, logentries_logset)
-    url = 'http://api.logentries.com/' + account_key + '/hosts/'
+    url = LURL + account_key + '/hosts/'
 
     response = get_response(url)
     logsets = JSON.parse(response.body)
@@ -35,14 +41,17 @@ module Logentries
     hostkey = ''
     
     logsets['list'].each do |logset|
-      hostkey = logset['key'] if logset['name'] == logentries_logset
+      if logset['name'] == logentries_logset
+        hostkey = logset['key']
+        break
+      end
     end
 
     hostkey
   end
 
   def self.get_logs(account_key, host_key)
-    url = 'http://api.logentries.com/' + account_key + '/hosts/' + host_key + '/'
+    url = LURL + account_key + '/hosts/' + host_key + '/'
     response = get_response(url)
 
     logs = JSON.parse(response.body)
@@ -56,22 +65,51 @@ module Logentries
     log = nil
     
     logs.each do |l|
-      log = l if l['name'] == log_name
+      if l['name'] == log_name
+        log = l
+        break
+      end
     end
 
     log
+  end
+
+  def self.get_log_token(account_key, host_key, log_name)
+    log = get_log(account_key, host_key, log_name)
+
+    log['token']
   end
   
   def self.log_exist?(account_key, host_key, log_name)
     log = get_log(account_key, host_key, log_name)
 
-    log_exist = log ? true : false
-
-    log_exist
+    log ? true : false
   end
 
-  def self.add_log
-    
+  def self.add_log(account_key,host_key,log_name)
+    if log_exist?(account_key,host_key,log_name)
+      return get_log_token(account_key,host_key,log_name)
+    end
+    params = {
+      'request' => 'new_log',
+      'user_key' => account_key,
+      'host_key' => host_key,
+      'name' => log_name,
+      'type' => '',
+      'filename' => '',
+      'retention' => '-1',
+      'source' => 'token'
+    }
+
+    uri = URI.parse(LURL)
+    http = Net::HTTP.new(uri.host,uri.port)
+    req = Net::HTTP::Post.new(uri.path)
+
+    req.set_form_data(params)
+    raw_response = http.request(req)
+
+    response = JSON.parse(raw_response.body)
+    response['log']['token']
   end
 
   def self.remove_log
