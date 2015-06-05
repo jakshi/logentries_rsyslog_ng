@@ -23,8 +23,8 @@ end
 use_inline_resources
 
 action :add do
-  host_key = Logentries.get_host_key(account_key,new_resource.logentries_logset)
   account_key = new_resource.logentries_account_key
+  host_key = Logentries.get_host_key(account_key,new_resource.logentries_logset)
   Chef::Log.info("We should add logs using #{account_key} and #{host_key}")
 #  logs = Logentries.get_logs(account_key, host_key)
 #  Logentries.add_log unless Logentries.log_exist?
