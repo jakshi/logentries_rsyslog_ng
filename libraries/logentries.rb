@@ -16,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+require 'json'
+
 module Logentries
   def self.get_host_key(account_key, logentries_logset)
     url = 'http://api.logentries.com/' + account_key + '/hosts/'
@@ -23,7 +25,7 @@ module Logentries
 
     response = Net::HTTP.get_response(uri)
 
-    logsets = response.body
+    logsets = JSON.parse(response.body)
     
     hostkey = ''
     
