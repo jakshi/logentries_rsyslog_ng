@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: logentries_rsyslog_ng
-# Provider:: default
+# Library:: logentries
 #
 # Author: Kostiantyn Lysenko gshaud@gmail.com
 #
@@ -16,32 +16,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-def whyrun_supported?
-  true
-end
+module Logentries
+  def self.get_host_key(account_key, logentries_logset)
+    url = 'http://api.logentries.com/' + account_key + '/hosts/'
+    uri = URI(url)
 
-use_inline_resources
+    logsets = Net::HTTP.get_response(uri)
 
-action :add do
-  host_key = Logentries.get_host_key(account_key,new_resource.logentries_logset)
-  account_key = new_resource.logentries_account_key
-  Chef::Log.info("We should add logs using #{account_key} and #{host_key}")
-#  logs = Logentries.get_logs(account_key, host_key)
-#  Logentries.add_log unless Logentries.log_exist?
-  
-  rsyslog_add_log
-end
+    hostkey = ''
+    
+    logsets['list'].each do |logset|
+      hostkey = logset['key'] if logset['name'] == logentries_logset
+    end
 
-action :remove do
-  Logentries.remove_log if logentries_log_exist?
-  
-  rsyslog_remove_log
-end
+    hostkey
+  end
 
-protected
+  def self.get_logs
+  end
 
-def rsyslog_add_log
-end
+  def self.log_exist?
+  end
 
-def rsyslog_remove_log
+  def self.add_log
+  end
+
+  def self.remove_log
+  end
 end
