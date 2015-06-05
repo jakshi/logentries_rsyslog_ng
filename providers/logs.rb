@@ -26,7 +26,7 @@ action :add do
   account_key = new_resource.logentries_account_key
   host_key = Logentries.get_host_key(account_key,new_resource.logentries_logset)
   #  Logentries.add_log unless Logentries.log_exist?
-  Chef::Log.info("We should add log #{new_resource.logentries_name}, to Production, because it doesn't exist!") if Logentries.log_exist?(account_key,host_key,new_resource.logentries_name)
+  Chef::Log.info("We should add log #{new_resource.logentries_name}, to Production, because it doesn't exist!") unless Logentries.log_exist?(account_key,host_key,new_resource.logentries_name)
   rsyslog_add_log
 end
 
