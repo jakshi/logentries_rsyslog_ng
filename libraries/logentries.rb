@@ -32,7 +32,7 @@ module Logentries
     hostkey
   end
 
-  def self.get_logs
+  def self.get_logs(account_key,host_key)
   end
 
   def self.log_exist?

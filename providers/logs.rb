@@ -24,6 +24,7 @@ use_inline_resources
 
 action :add do
   account_key = new_resource.logentries_account_key
+  Chef::Log.info("We want to add logs using acount key: #{account_key} to logset: #{new_resource.logentries_logset}")
   host_key = Logentries.get_host_key(account_key,new_resource.logentries_logset)
   Chef::Log.info("We should add logs using #{account_key} and #{host_key}")
 #  logs = Logentries.get_logs(account_key, host_key)
