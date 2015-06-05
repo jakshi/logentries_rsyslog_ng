@@ -50,14 +50,22 @@ module Logentries
     logs['list']
   end
 
-  def self.log_exist?(account_key, host_key, log_name)
+  def self.get_log(account_key, host_key, log_name)
     logs = get_logs(account_key, host_key)
 
-    log_exist = false
+    log = nil
     
-    logs.each do |log|
-      log_exist = true if log['name'] == log_name
+    logs.each do |l|
+      log = l if l['name'] == log_name
     end
+
+    log
+  end
+  
+  def self.log_exist?(account_key, host_key, log_name)
+    log = get_log(account_key, host_key, log_name)
+
+    log_exist = log ? true : false
 
     log_exist
   end
