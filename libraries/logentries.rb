@@ -21,8 +21,10 @@ module Logentries
     url = 'http://api.logentries.com/' + account_key + '/hosts/'
     uri = URI(url)
 
-    logsets = Net::HTTP.get_response(uri)
+    response = Net::HTTP.get_response(uri)
 
+    logsets = response.body
+    
     hostkey = ''
     
     logsets['list'].each do |logset|
