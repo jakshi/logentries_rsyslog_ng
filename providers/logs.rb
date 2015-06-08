@@ -34,7 +34,7 @@ action :add do
   end
 
   # Create log file directory if it's not exist
-  dirname = File.dirname(new_resource.log_filename)
+  dirname = ::File.dirname(new_resource.log_filename)
 
   directory dirname do
     recurive :true
