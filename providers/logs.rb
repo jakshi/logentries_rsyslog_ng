@@ -53,7 +53,7 @@ action :add do
     variables({
                 :log_filename => new_resource.log_filename,
                 :rsyslog_tag => new_resource.rsyslog_tag,
-                :state_file => "#{new_resrource.logentries_name}_state",
+                :state_file => "#{new_resource.logentries_name}_state",
                 :syslog_facility => new_resource.syslog_facility,
                 :logentries_token => log_token,
                 :node_identity => new_resource.node_identity,
