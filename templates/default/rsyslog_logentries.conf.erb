@@ -2,7 +2,7 @@
 
 $InputFileName <%= @log_filename %>
 <% if @rsyslog_tag %>
-$InputFileTag <%= @rsyslog_tag %>
+$InputFileTag <%= "#{@rsyslog_tag}:" %>
 <% end %>
 $InputFileStateFile <%= @state_file %>
 <% if @syslog_facility %>
