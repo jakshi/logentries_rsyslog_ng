@@ -44,7 +44,7 @@ action :add do
   template '/etc/rsyslog.d/01-module-imfile.conf' do
     cookbook new_resource.cookbook
     source new_resource.imfile_module_source
-    only_if { new_resource.imfile_module_source }
+    only_if { new_resource.rsyslog_imfile_module }
   end
   
   template new_resource.rsyslog_conf do
