@@ -30,4 +30,6 @@ attribute :rsyslog_selector, :kind_of => [String], :default => '*.*'
 attribute :rsyslog_tag, :kind_of => [String, NilClass], :default => nil
 attribute :rsyslog_imfile_module, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :cookbook, :kind_of => [String], :default => 'logentries_rsyslog_ng'
-attribute :source, :kind_of => [String], :default => 'rsyslog-logentries.conf.erb'
+attribute :logentries_source, :kind_of => [String], :default => 'rsyslog_logentries.conf.erb'
+attribute :imfile_module_source, :kind_of => [String], :default => 'modules_imfile.conf.erb'
+attribute :node_identity, :kind_of => String, :default => node[:hostname]
