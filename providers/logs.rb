@@ -57,9 +57,8 @@ action :add do
                 :syslog_facility => new_resource.syslog_facility,
                 :logentries_token => log_token,
                 :node_identity => new_resource.node_identity,
-                :rsyslog_selector => new_resource.rsyslog_selector,
-                
-              )}
+                :rsyslog_selector => new_resource.rsyslog_selector                
+              })
       notifies :restart, 'service[rsyslog]', :delayed
   end
 
