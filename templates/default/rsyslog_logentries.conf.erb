@@ -13,6 +13,6 @@ $InputRunFileMonitor
 
 $InputFilePollInterval 10
 
-$template LogentriesFormat,"<%= @logentries_token %> <%= @node_identity %> %syslogtag% %msg%\n"
+$template <%= "LogentriesFormat_#{logentries_name}" %>,"<%= @logentries_token %> <%= @node_identity %> %syslogtag% %msg%\n"
 
-<%= @rsyslog_selector %> action(type="omfwd" protocol="tcp" Target="api.logentries.com" Port="20000" StreamDriverMode="1" StreamDriver="gtls" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logentries.com" template="LogentriesFormat")
+<%= @rsyslog_selector %> action(type="omfwd" protocol="tcp" Target="api.logentries.com" Port="20000" StreamDriverMode="1" StreamDriver="gtls" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logentries.com" template="<%= "LogentriesFormat_#{logentries_name}" %>")
