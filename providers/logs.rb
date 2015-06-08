@@ -37,7 +37,7 @@ action :add do
   dirname = ::File.dirname(new_resource.log_filename)
 
   directory dirname do
-    recurive :true
+    recursive true
     not_if { ::File.exists?(dirname) }
   end
   
