@@ -33,6 +33,14 @@ action :add do
     action :nothing
   end
 
+  # Create log file directory if it's not exist
+  dirname = File.dirname(new_resource.log_filename)
+
+  directory dirname do
+    recurive :true
+    not_if { ::File.exists?(dirname) }
+  end
+  
   # Create log file if it's not exist
   file new_resource.log_filename do
     action :touch
