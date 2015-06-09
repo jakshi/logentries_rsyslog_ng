@@ -1,3 +1,7 @@
+# 0.0.3
+
+* Fix: several typos/errors in a code
+
 # 0.0.2
 
 * Add: creating logfile directories if they are not created.
