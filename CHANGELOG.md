@@ -1,3 +1,8 @@
+# 0.0.4
+
+* Add: rsyslog_ruleset attribute to be able to place remote logging to
+non-default rsyslog rulesets
+
 # 0.0.3
 
 * Fix: several typos/errors in a code

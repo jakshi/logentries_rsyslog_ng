@@ -60,13 +60,14 @@ action :add do
     source new_resource.logentries_source
     variables({
                 :log_filename => new_resource.log_filename,
-                :rsyslog_tag => new_resource.rsyslog_tag,
                 :state_file => "#{new_resource.logentries_name}_state",
-                :syslog_facility => new_resource.syslog_facility,
-                :logentries_token => log_token,
                 :node_identity => new_resource.node_identity,
-                :rsyslog_selector => new_resource.rsyslog_selector,
-                :logentries_name => new_resource.logentries_name
+                :logentries_token => log_token,
+                :logentries_name => new_resource.logentries_name,
+                :syslog_facility => new_resource.syslog_facility,
+                :rsyslog_ruleset => new_resource.rsyslog_ruleset,
+                :rsyslog_tag => new_resource.rsyslog_tag,
+                :rsyslog_selector => new_resource.rsyslog_selector
               })
       notifies :restart, 'service[rsyslog]', :delayed
   end
@@ -75,11 +76,17 @@ end
 
 action :remove do
   Logentries.remove_log if logentries_log_exist?
-  
-  rsyslog_remove_log
+
+  # define rsyslog service
+  service 'rsyslog' do
+    supports :status => true, :start => true, :stop => true, :restart => true, :reload => true
+    action :nothing
+  end
+
+  file new_resource.rsyslog_conf do
+    action :delete
+    notifies :restart, 'service[rsyslog]', :delayed
+  end
 end
 
 protected
-
-def rsyslog_remove_log
-end
