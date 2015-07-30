@@ -1,3 +1,10 @@
+# 0.0.5
+
+* Add: log_owner and log_group attributes. If log file doesn't exist
+  logentries LWRP can use those attribues to create log file with
+  specific owner and group
+* Add: test-kitchen basic config/setup for manual testing.
+
 # 0.0.4
 
 * Add: rsyslog_ruleset attribute to be able to place remote logging to
