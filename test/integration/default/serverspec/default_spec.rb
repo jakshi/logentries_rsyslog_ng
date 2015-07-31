@@ -1,12 +1,14 @@
 require 'spec_helper'
 
-describe 'logentries_rsyslog_ng::default' do
-
-  # Serverspec examples can be found at
-  # http://serverspec.org/resource_types.html
+describe 'logentries_rsyslog_ng LWRP' do
   
-  it 'does something' do
-    skip 'Replace this with meaningful tests'
+  it 'creates log file if log file doesn\'t exist' do
+    expect(file '/var/log/testlog').to be_file
   end
 
+  it 'can create that log file with specific user/group ownership' do
+    expect(file '/var/log/testlog').to be_owned_by 'loguser'
+    expect(file '/var/log/testlog').to be_grouped_into 'loggroup'
+  end
+  
 end

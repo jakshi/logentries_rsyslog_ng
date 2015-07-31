@@ -21,6 +21,8 @@ actions :add, :remove
 default_action :add
 
 attribute :log_filename, :kind_of => String, :name_attribute => true, :required => true
+attribute :log_owner, :kind_of => [String], :default => 'root'
+attribute :log_group, :kind_of => [String], :default => 'root'
 attribute :rsyslog_conf, :kind_of => String, :required => true
 attribute :logentries_logset, :kind_of => String, :required => true
 attribute :logentries_name, :kind_of => String, :required => true

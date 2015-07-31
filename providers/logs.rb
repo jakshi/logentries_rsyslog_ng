@@ -44,6 +44,8 @@ action :add do
   # Create log file if it's not exist
   file new_resource.log_filename do
     action :touch
+    owner new_resource.log_owner
+    group new_resource.log_group
     not_if { ::File.exists?(new_resource.log_filename) }
   end
   
