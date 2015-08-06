@@ -27,11 +27,32 @@ module Logentries
   
   def self.get_response(url)
     uri = URI(url)
-    response = Net::HTTP.get_response(uri)
 
+    begin
+      response = Net::HTTP.get_response(uri)
+    rescue Timeout::Error, Errno::ETIMEDOUT, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+      response = nil    
+    end
+    
     response
   end
 
+  def self.send_request(url,params)
+    uri = URI.parse(url)
+    http = Net::HTTP.new(uri.host,uri.port)
+    request = Net::HTTP::Post.new(uri.path)
+
+    request.set_form_data(params)
+
+    begin
+      response = http.request(request)
+    rescue Timeout::Error, Errno::ETIMEDOUT, Errno::EINVAL, Errno::ECONNRESET, EOFError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError => e
+      response = nil    
+    end
+
+    response
+  end
+  
   def self.get_host_key(account_key, logentries_logset)
     url = LURL + account_key + '/hosts/'
 
@@ -101,13 +122,7 @@ module Logentries
       'source' => 'token'
     }
 
-    uri = URI.parse(LURL)
-    http = Net::HTTP.new(uri.host,uri.port)
-    req = Net::HTTP::Post.new(uri.path)
-
-    req.set_form_data(params)
-    raw_response = http.request(req)
-
+    raw_response = send_request(LURL,params)
     response = JSON.parse(raw_response.body)
     response['log']['token']
   end

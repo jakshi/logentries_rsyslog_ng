@@ -34,3 +34,24 @@ logentries_rsyslog_ng_logs '/var/log/testlog' do
   rsyslog_tag 'testlog'
   rsyslog_selector ":syslogtag, isequal, \"testlog:\""
 end
+
+execute 'block request to logentries' do
+  command 'iptables -A OUTPUT -p tcp --dport 80 -j DROP'
+end
+
+# imitate second run with creating dull log
+logentries_rsyslog_ng_logs '/var/log/testlog' do
+  log_owner 'loguser'
+  log_group 'loggroup'
+  logentries_logset 'DemoSet'
+  logentries_name 'testlog'
+  logentries_account_key node['logentries']['token']
+  rsyslog_ruleset 'testlog'
+  rsyslog_conf '/etc/rsyslog.d/20-testlog.conf'
+  rsyslog_tag 'testlog'
+  rsyslog_selector ":syslogtag, isequal, \"testlog:\""
+end
+
+execute 'unblock request to logentries' do
+  command 'iptables -D OUTPUT -p tcp --dport 80 -j DROP'
+end

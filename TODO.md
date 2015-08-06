@@ -6,3 +6,4 @@
 * Modify: Switch to using https
 * Add: remove action to logs LWRP
 * Add: create and remove actions for logentries hosts LWRP
+* Migrate helper library from net/http to HTTParty
