@@ -33,19 +33,13 @@ module Logentries
   end
 
   def self.get_host_key(account_key, logentries_logset)
-    url = LURL + account_key + '/hosts/'
+    url = LURL + account_key + '/hosts/' + logentries_logset
 
     response = get_response(url)
-    logsets = JSON.parse(response.body)
+    logset = JSON.parse(response.body)
     
     hostkey = ''
-    
-    logsets['list'].each do |logset|
-      if logset['name'] == logentries_logset
-        hostkey = logset['key']
-        break
-      end
-    end
+    hostkey = logset['key']
 
     hostkey
   end

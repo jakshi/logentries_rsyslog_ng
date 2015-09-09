@@ -1,3 +1,7 @@
+# 0.0.6
+
+* Fix: update cookbook to follow logentries API changes
+
 # 0.0.5
 
 * Add: log_owner and log_group attributes. If log file doesn't exist
