@@ -26,7 +26,7 @@ module Logentries
   LURL = "http://api.logentries.com/"
   
   def self.get_response(url)
-    uri = URI(url)
+    uri = URI(URI.escape(url))
     response = Net::HTTP.get_response(uri)
 
     response
