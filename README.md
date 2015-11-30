@@ -5,3 +5,8 @@
 risk.
 * I'll write docs later, after I finish all supposed LWRP actions and
   stabilize cookbook a bit.
+
+# Requirements
+
+* debian 7
+* rsyslog 7.x+
