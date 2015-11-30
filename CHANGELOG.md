@@ -1,3 +1,8 @@
+# 0.0.7
+
+* Add: action names
+* Add: disk assisted queues for actions
+
 # 0.0.6
 
 * Fix: update cookbook to follow logentries API changes
