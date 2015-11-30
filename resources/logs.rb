@@ -28,6 +28,7 @@ attribute :logentries_logset, :kind_of => String, :required => true
 attribute :logentries_name, :kind_of => String, :required => true
 attribute :logentries_account_key, :kind_of => String, :required => true
 attribute :syslog_facility, :kind_of => [String, NilClass], :default => nil
+attribute :rsyslog_tls_enable, :kind_of => [TrueClass, FalseClass], :default => true
 attribute :rsyslog_ruleset, :kind_of => [String, NilClass], :default => nil
 attribute :rsyslog_selector, :kind_of => [String], :default => '*.*'
 attribute :rsyslog_tag, :kind_of => [String, NilClass], :default => nil

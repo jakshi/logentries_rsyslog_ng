@@ -16,21 +16,42 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Create logentries group
-group 'loggroup'
+# Be sure that backports are available
+apt_repository 'debian_wheezy_backport' do
+  uri        'http://ftp.debian.org/debian'
+  components ['wheezy-backports', 'main']
+end.run_action(:add)
 
-# Create logentries user
-user 'loguser'
+%w{rsyslog rsyslog-gnutls}.each do |pkg|
+  package pkg do
+    action :nothing
+    default_release 'wheezy-backports'
+  end.run_action(:upgrade)
+end
+
+::File.open('/var/log/testlog', 'w') {|f| f.write("this is a test log file\n") }
+
+service 'rsyslog' do
+  supports :status => true, :start => true, :stop => true, :restart => true, :reload => true
+  action :nothing
+end
 
 # Create dull log
 logentries_rsyslog_ng_logs '/var/log/testlog' do
-  log_owner 'loguser'
-  log_group 'loggroup'
   logentries_logset 'DemoSet'
   logentries_name 'testlog'
   logentries_account_key node['logentries']['token']
+  rsyslog_tls_enable false
   rsyslog_ruleset 'testlog'
   rsyslog_conf '/etc/rsyslog.d/20-testlog.conf'
   rsyslog_tag 'testlog'
   rsyslog_selector ":syslogtag, isequal, \"testlog:\""
+end
+
+service 'rsyslog' do
+  action :restart
+end
+
+file '/var/log/testlog' do
+  content IO.read('/var/log/testlog') + "test string 1\n"
 end

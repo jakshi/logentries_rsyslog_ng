@@ -67,6 +67,7 @@ action :add do
                 :logentries_token => log_token,
                 :logentries_name => new_resource.logentries_name,
                 :syslog_facility => new_resource.syslog_facility,
+                :rsyslog_tls_enable => new_resource.rsyslog_tls_enable,
                 :rsyslog_ruleset => new_resource.rsyslog_ruleset,
                 :rsyslog_tag => new_resource.rsyslog_tag,
                 :rsyslog_selector => new_resource.rsyslog_selector

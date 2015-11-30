@@ -32,6 +32,8 @@ suites:
   attributes:
     logentries:
       token: #{ENV['LOGENTRIES_TOKEN']}
+    apt:
+      compile_time_update: true
   run_list:
     - recipe[logentries_rsyslog_ng_test_helper::default]
 EOT
@@ -59,6 +61,8 @@ suites:
   attributes:
     logentries:
       token: #{ENV['LOGENTRIES_TOKEN']}
+    apt:
+      compile_time_update: true
   run_list:
     - recipe[logentries_rsyslog_ng_test_helper::default]
 EOT

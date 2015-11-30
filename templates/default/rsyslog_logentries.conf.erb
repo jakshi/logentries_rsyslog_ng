@@ -15,7 +15,7 @@ ruleset(name="<%= @rsyslog_ruleset %>"
 	queue.maxdiskspace="100M"
 	queue.saveonshutdown="on"){
 <% end %>
-<%= @rsyslog_selector %> action(type="omfwd" protocol="tcp" Target="api.logentries.com" Port="20000" StreamDriverMode="1" StreamDriver="gtls" StreamDriverAuthMode="x509/name" StreamDriverPermittedPeers="*.logentries.com" template="<%= "LogentriesFormat_#{@logentries_name}" %>")
+<% if @rsyslog_rsyslog_enable %>
 <%= @rsyslog_selector %> action(name="<%= 'action_' + @logentries_name %>"
                                 type="omfwd"
 				Protocol="tcp"
@@ -33,6 +33,21 @@ ruleset(name="<%= @rsyslog_ruleset %>"
 				queue.maxdiskspace="100M"
 			        queue.saveonshutdown="on")
 
+<% else %>
+<%= @rsyslog_selector %> action(name="<%= 'action_' + @logentries_name %>"
+                                type="omfwd"
+				Protocol="tcp"
+				Target="api.logentries.com"
+				Port="10000"
+				Template="<%= 'logentriestemplate_' + @logentries_name %>"
+				action.resumeRetryCount="-1"
+			        queue.filename="<%= 'actionqueue_' + @logentries_name %>"
+                         	queue.size="200000"
+                        	queue.type="LinkedList"
+				queue.maxdiskspace="100M"
+			        queue.saveonshutdown="on")
+
+<% end %>
 <% if @rsyslog_ruleset %>
 }
 <% end %>
