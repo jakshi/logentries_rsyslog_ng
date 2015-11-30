@@ -2,6 +2,8 @@
 
 * Add: action names
 * Add: disk assisted queues for actions
+* Add: no tls mode for testing
+* Add: testing that send data to logentries
 
 # 0.0.6
 
