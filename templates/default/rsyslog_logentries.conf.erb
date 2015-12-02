@@ -15,7 +15,7 @@ ruleset(name="<%= @rsyslog_ruleset %>"
 	queue.maxdiskspace="100M"
 	queue.saveonshutdown="on"){
 <% end %>
-<% if @rsyslog_rsyslog_enable %>
+<% if @rsyslog_tls_enable %>
 <%= @rsyslog_selector %> action(name="<%= 'action_' + @logentries_name %>"
                                 type="omfwd"
 				Protocol="tcp"
